@@ -1,0 +1,17 @@
+{
+  "name": "target-api",
+  "version": "0.1.0",
+  "description": "Target API (sandbox) untuk Final Project Keamanan Informasi - belum berisi implementasi endpoint",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "seed": "node src/seed/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "better-sqlite3": "^11.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5"
+  }
+}

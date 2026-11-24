@@ -1,0 +1,58 @@
+# Lab Keamanan Informasi - Final Project
+# PERINGATAN: lingkungan ini HANYA untuk pengujian internal/akademik.
+# Network "lab-network" bersifat internal (tidak terhubung ke internet).
+
+services:
+  target-api:
+    build: ./target-api
+    container_name: target-api
+    env_file:
+      - ./target-api/.env
+    ports:
+      - "3000:3000"   # expose ke host hanya untuk kemudahan debugging manual (Postman dari host)
+    networks:
+      - lab-network
+    volumes:
+      - ./target-api:/app
+      - /app/node_modules      # mencegah bind mount menimpa node_modules hasil build
+      - target-db-data:/app/data
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - lab-network
+    volumes:
+      - ollama-data:/root/.ollama
+
+  attacker-agent:
+    build: ./attacker-agent
+    container_name: attacker-agent
+    env_file:
+      - ./attacker-agent/.env
+    depends_on:
+      - target-api
+      - ollama
+    networks:
+      - lab-network
+    volumes:
+      - ./attacker-agent:/app
+      - ./evidence:/app/evidence
+    stdin_open: true
+    tty: true
+
+networks:
+  lab-network:
+    driver: bridge
+    # PENTING: saat pertama kali setup, baris "internal: true" di bawah ini
+    # HARUS DIKOMENTARI dulu agar container ollama bisa mengunduh model
+    # dari internet (lihat README bagian "Setup Awal vs Mode Isolasi Penuh").
+    # Setelah model berhasil ditarik, aktifkan kembali baris ini sebelum
+    # masuk ke fase pengujian/eksploitasi sesungguhnya.
+    internal: false   # <- ganti ke true saat masuk fase pengujian isolasi penuh
+
+volumes:
+  target-db-data:
+  ollama-data:

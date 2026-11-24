@@ -1,0 +1,21 @@
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.sqlite3
+data/
+evidence/*.png
+evidence/*.jpg
+evidence/*.log
+!evidence/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs npm/yarn
+npm-debug.log*
+yarn-error.log*
