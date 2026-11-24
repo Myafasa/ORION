@@ -9,6 +9,7 @@ data/
 evidence/*.png
 evidence/*.jpg
 evidence/*.log
+evidence/*.json
 !evidence/.gitkeep
 
 # OS / editor

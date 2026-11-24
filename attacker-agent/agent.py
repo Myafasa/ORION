@@ -46,10 +46,15 @@ def build_task_message() -> str:
     hanya tujuan spesifiknya yang berbeda.
     """
     if AGENT_MODE == "assessment":
-        if not OWN_JWT_TOKEN or not TARGET_PHONE:
+        missing_config = []
+        if not OWN_JWT_TOKEN:
+            missing_config.append("OWN_JWT_TOKEN")
+        if not TARGET_PHONE:
+            missing_config.append("TARGET_PHONE")
+        if missing_config:
             raise ValueError(
-                "AGENT_MODE=assessment butuh OWN_JWT_TOKEN dan TARGET_PHONE "
-                "terisi di attacker-agent/.env"
+                "AGENT_MODE=assessment membutuhkan variabel berikut terisi "
+                f"di attacker-agent/.env: {', '.join(missing_config)}"
             )
         return (
             "Konteks: Anda bagian dari tim pengujian keamanan internal yang "
